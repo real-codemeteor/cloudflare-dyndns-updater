@@ -1,0 +1,6 @@
+auth_email: your@mail.com
+auth_key: <authkey fount in you cloudflare account>
+zone_name: your-zone.com
+records:
+  - record-one.your-zone.com
+  - record-two.your-zone.com
