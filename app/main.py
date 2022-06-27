@@ -7,16 +7,18 @@ import yaml
 import logging
 from os import path
 import os
+import time
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.0.0"
 
 def read_settings():
     try:
-        with open(r'settings.yaml') as settings_file:
+        with open(r'/app/config/settings.yaml') as settings_file:
             return yaml.load(settings_file, Loader=yaml.FullLoader)
     except Exception:
         logging.error("Failed to load the settings")
+
         sys.exit()
 
 def get_external_ip():
@@ -28,7 +30,7 @@ def get_external_ip():
 
 def get_previous_ip():
     try:
-        oldip = pathlib.Path('previousip').read_text('utf-8')
+        oldip = pathlib.Path('/app/previousip').read_text('utf-8')
     except FileNotFoundError:
         return ""
     
@@ -36,7 +38,7 @@ def get_previous_ip():
 
 def save_ip(ip):
     try:
-        with open("previousip", "w", encoding='utf-8') as ipfile:
+        with open("/app/previousip", "w", encoding='utf-8') as ipfile:
             ipfile.write(ip)
     except Exception:
         logging.error("Failed to save the old IP address.")
@@ -74,9 +76,10 @@ def update_record(zone_identifier, record_identifier, record, ip, auth_email, au
         logging.error(f"Failed to update {record} to {ip}")
 
 def main():
-    if (not path.exists('./logs')):
-        os.makedirs('./logs')
-    logging.basicConfig(level=logging.DEBUG, filename='./logs/cloudflare-dyndns-updater.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+    if (not path.exists('/app/logs')):
+        os.makedirs('/app/logs')
+    
+    logging.basicConfig(level=logging.DEBUG, filename='/app/logs/cloudflare-dyndns-updater.log', filemode='a', format='%(name)s - %(levelname)s - %(message)s')
     logging.info(f"{application_name} {version}")
 
     settings = read_settings()
@@ -96,7 +99,7 @@ def main():
 
     oldip = get_previous_ip()
     ip = get_external_ip()
-    
+        
     if (oldip == ip):
         logging.info(f"The current IP {ip} is the same as the old IP {oldip} so no update required.")
         sys.exit()
@@ -104,7 +107,7 @@ def main():
         logging.info(f"Updating records to {ip}")
 
     zone_identifier = get_zone_identifier(zone_name, auth_email, auth_key)
-    
+        
 
     for record in records:
         record_identifier = get_record_identifier(zone_identifier, record, auth_email, auth_key)
@@ -114,6 +117,8 @@ def main():
         update_record(zone_identifier, record_identifier, record, ip, auth_email, auth_key)
 
     save_ip(ip)
-
+    time.sleep(20)
+    
 if __name__ == "__main__":
     main()
+    
