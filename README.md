@@ -29,6 +29,7 @@ Next thing is for you to create a Docker Compose file.
 Choose location where you want to store your Docker Compose file and create a new file called `docker-compose.yml`.  
 Give your Docker Compose file the following content.
 ```
+version: '3'
 services:
   cloudflare-dnydns-updater:
     image: registry.gitlab.com/codemeteor/cloudflare-dyndns-updater:latest
@@ -51,5 +52,5 @@ The application will run in the background every minute. When a change in the pu
 When you want to stop the application you can do so running the following command from the location where the Docker Compose file is located.
 
 ```
-docker-compose down -d
+docker-compose down
 ```
