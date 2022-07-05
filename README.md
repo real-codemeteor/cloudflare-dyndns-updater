@@ -33,7 +33,7 @@ version: '3'
 services:
   cloudflare-dyndns-updater:
     image: registry.gitlab.com/codemeteor/cloudflare-dyndns-updater:latest
-    container_name: cloudflare-dnydns-updater
+    container_name: cloudflare-dyndns-updater
     volumes:
       - /Appdata/cloudflare-dyndns-updater/config:/app/config
       - /Appdata/cloudflare-dyndns-updater/logs:/app/logs
