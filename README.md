@@ -31,7 +31,7 @@ Give your Docker Compose file the following content.
 ```
 version: '3'
 services:
-  cloudflare-dnydns-updater:
+  cloudflare-dyndns-updater:
     image: registry.gitlab.com/codemeteor/cloudflare-dyndns-updater:latest
     container_name: cloudflare-dnydns-updater
     volumes:
