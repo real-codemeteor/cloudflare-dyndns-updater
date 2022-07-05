@@ -49,7 +49,7 @@ docker-compose up -d
 This a simple case of "install and forget".  
 The application will run in the background every minute. When a change in the public IP address is detected it will update the records.  
    
-When you want to stop the application you can do so running the following command from the location where the Docker Compose file is located.
+When you want to stop the application you can do so running the following command.
 
 ```
 docker-compose down
