@@ -10,7 +10,7 @@ import os
 import time
 
 application_name = "CloudFlare DYNDNS Updater"
-version = "1.0.0"
+version = "1.1.0"
 
 def read_settings():
     try:
