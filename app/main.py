@@ -13,7 +13,7 @@ application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
 
 
-def read_settings():
+def read_settings() -> None:
     """
     Read the settings from the settings.yaml file
     """
@@ -26,7 +26,7 @@ def read_settings():
         sys.exit()
 
 
-def get_external_ip():
+def get_external_ip() -> str:
     """
     Get the external IP address using the https://ident.me service
     """
@@ -39,7 +39,7 @@ def get_external_ip():
         sys.exit()
 
 
-def get_previous_ip():
+def get_previous_ip() -> str:
     """
     Get the previous IP address from the previousip file
     """
@@ -51,7 +51,7 @@ def get_previous_ip():
     return oldip
 
 
-def save_ip(ip):
+def save_ip(ip) -> None:
     """
     Save the IP address to the previousip file
     """
@@ -63,7 +63,7 @@ def save_ip(ip):
         sys.exit()
 
 
-def get_zone_identifier(zone_name, auth_email, auth_key):
+def get_zone_identifier(zone_name: str, auth_email: str, auth_key: str) -> str:
     """
     Get the zone identifier for the zone name
     """
@@ -84,7 +84,7 @@ def get_zone_identifier(zone_name, auth_email, auth_key):
         sys.exit()
 
 
-def get_record_identifier(zone_identifier, record, auth_email, auth_key):
+def get_record_identifier(zone_identifier: str, record: str, auth_email: str, auth_key: str) -> str:
     """
     Get the record identifier for the record name
     """
@@ -103,7 +103,7 @@ def get_record_identifier(zone_identifier, record, auth_email, auth_key):
         return ""
 
 
-def update_record(zone_identifier, record_identifier, record, ip, auth_email, auth_key):
+def update_record(zone_identifier: str, record_identifier: str, record: str, ip: str, auth_email: str, auth_key: str) -> None:
     """
     Update the record to the new IP address
     """
@@ -124,7 +124,7 @@ def update_record(zone_identifier, record_identifier, record, ip, auth_email, au
         logging.error(f"Failed to update {record} to {ip}")
 
 
-def main():
+def main() -> None:
     """
     Main function
     """
