@@ -7,17 +7,20 @@ import yaml
 import logging
 import time
 from typing import Dict
+from pathlib import Path
+from os import getenv
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
 
+SETTINGS_FILE = Path(getenv("SETTINGS_FILE", "./config/settings.yaml"))
 
 def read_settings() -> Dict:
     """
     Read the settings from the settings.yaml file
     """
     try:
-        with open(r"/app/config/settings.yaml") as settings_file:
+        with open(SETTINGS_FILE) as settings_file:
             return yaml.load(settings_file, Loader=yaml.FullLoader)
     except Exception:
         logging.error("Failed to load the settings")
@@ -30,10 +33,10 @@ def get_external_ip() -> str:
     Get the external IP address using the https://ident.me service
     """
     try:
-        return urllib.request.urlopen("https://ident.me").read().decode("utf-8")
-    except Exception:
+        return urllib.request.urlopen("https://4.ident.me").read().decode("utf-8")
+    except Exception as e:
         logging.error(
-            "Failed to get the public IP address, check your internet connection."
+            "Failed to get the public IP address, check your internet connection.", e
         )
         sys.exit()
 
