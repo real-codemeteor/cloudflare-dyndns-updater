@@ -14,6 +14,8 @@ application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
 
 SETTINGS_FILE = Path(getenv("SETTINGS_FILE", "./config/settings.yaml"))
+LOG_LEVEL = getenv("LOG_LEVEL", "INFO")
+
 
 def read_settings() -> Dict:
     """
@@ -136,15 +138,19 @@ def update_record(
         logging.error(f"Failed to update {record} to {ip}")
 
 
+def setup_logging():
+    logging.basicConfig(
+        level=LOG_LEVEL,
+        format="%(asctime)s: %(name)s - %(levelname)s - %(message)s",
+    )
+    logging.info(f"{application_name} {version}")
+
+
 def main() -> None:
     """
     Main function
     """
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(name)s - %(levelname)s - %(message)s",
-    )
-    logging.info(f"{application_name} {version}")
+    setup_logging()
 
     try:
         settings: Dict = read_settings()
