@@ -1,14 +1,13 @@
 #!/usr/bin/env python
-import pathlib
+import logging
 import sys
-from requests import Response
+from os import getenv
+from pathlib import Path
+from typing import Dict
+
 import requests
 import yaml
-import logging
-import time
-from typing import Dict
-from pathlib import Path
-from os import getenv
+from requests import Response
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
