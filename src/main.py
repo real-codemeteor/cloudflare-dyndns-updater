@@ -3,30 +3,17 @@ import logging
 import sys
 from os import getenv
 from pathlib import Path
-from typing import Dict
+from settings import Settings
 
 import requests
-import yaml
 from requests import Response
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
 
-SETTINGS_FILE = Path(getenv("SETTINGS_FILE", "./config/settings.yaml"))
 LOG_LEVEL = getenv("LOG_LEVEL", "INFO")
 
 
-def read_settings() -> Dict:
-    """
-    Read the settings from the settings.yaml file
-    """
-    try:
-        with open(SETTINGS_FILE) as settings_file:
-            return yaml.load(settings_file, Loader=yaml.FullLoader)
-    except Exception:
-        logging.error("Failed to load the settings")
-
-        sys.exit()
 
 
 def get_external_ip() -> str:
@@ -121,6 +108,7 @@ def setup_logging():
     logging.info(f"{application_name} {version}")
 
 
+
 def main() -> None:
     """
     Main function
@@ -128,11 +116,7 @@ def main() -> None:
     setup_logging()
 
     try:
-        settings: Dict = read_settings()
-        auth_email: str = settings["auth_email"]
-        auth_key: str = settings["auth_key"]
-        zone_name: str = settings["zone_name"]
-        records: list = settings["records"]
+        settings: Settings = Settings()
     except Exception():
         logging.error("There was a problem loading the settings.")
         sys.exit()
@@ -148,11 +132,11 @@ def main() -> None:
     else:
         logging.info(f"Updating records to {current_ip}")
 
-    zone_identifier: str = get_zone_identifier(zone_name, auth_email, auth_key)
+    zone_identifier: str = get_zone_identifier(settings.zone_name, settings.auth_email, settings.auth_key)
 
-    for record in records:
+    for record in settings.records:
         record_identifier: str = get_record_identifier(
-            zone_identifier, record, auth_email, auth_key
+            zone_identifier, record, settings.auth_email, settings.auth_key
         )
         if record_identifier == "":
             logging.warning(
@@ -160,7 +144,7 @@ def main() -> None:
             )
             continue
         update_record(
-            zone_identifier, record_identifier, record, current_ip, auth_email, auth_key
+            zone_identifier, record_identifier, record, current_ip, settings.auth_email, settings.auth_key
         )
 
 
