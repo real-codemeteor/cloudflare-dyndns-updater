@@ -164,9 +164,6 @@ def main() -> None:
             zone_identifier, record_identifier, record, current_ip, auth_email, auth_key
         )
 
-    time.sleep(20)
-
 
 if __name__ == "__main__":
     main()
-
