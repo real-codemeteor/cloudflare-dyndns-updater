@@ -44,30 +44,6 @@ def get_external_ip() -> str:
         sys.exit()
 
 
-def get_previous_ip() -> str:
-    """
-    Get the previous IP address from the previousip file
-    """
-    try:
-        oldip = pathlib.Path("/app/previousip").read_text("utf-8")
-    except FileNotFoundError:
-        return ""
-
-    return oldip
-
-
-def save_ip(ip) -> None:
-    """
-    Save the IP address to the previousip file
-    """
-    try:
-        with open("/app/previousip", "w", encoding="utf-8") as ipfile:
-            ipfile.write(ip)
-    except Exception:
-        logging.error("Failed to save the old IP address.")
-        sys.exit()
-
-
 def get_zone_identifier(zone_name: str, auth_email: str, auth_key: str) -> str:
     """
     Get the zone identifier for the zone name
@@ -162,16 +138,16 @@ def main() -> None:
         logging.error("There was a problem loading the settings.")
         sys.exit()
 
-    oldip: str = get_previous_ip()
-    ip: str = get_external_ip()
+    previous_ip: str = ""
+    current_ip: str = get_external_ip()
 
-    if oldip == ip:
+    if previous_ip == current_ip:
         logging.info(
-            f"The current IP {ip} is the same as the old IP {oldip} so no update required."
+            f"The current IP {current_ip} is the same as the old IP {previous_ip} so no update required."
         )
         sys.exit()
     else:
-        logging.info(f"Updating records to {ip}")
+        logging.info(f"Updating records to {current_ip}")
 
     zone_identifier: str = get_zone_identifier(zone_name, auth_email, auth_key)
 
@@ -185,10 +161,9 @@ def main() -> None:
             )
             continue
         update_record(
-            zone_identifier, record_identifier, record, ip, auth_email, auth_key
+            zone_identifier, record_identifier, record, current_ip, auth_email, auth_key
         )
 
-    save_ip(ip)
     time.sleep(20)
 
 
