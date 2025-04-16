@@ -2,32 +2,16 @@
 import logging
 import sys
 from os import getenv
-from pathlib import Path
-from settings import Settings
 
 import requests
-from requests import Response
+
+from settings import Settings
+from ip_service import get_external_ip
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
 
 LOG_LEVEL = getenv("LOG_LEVEL", "INFO")
-
-
-
-
-def get_external_ip() -> str:
-    """
-    Get the external IP address using the https://ident.me service
-    """
-    try:
-        response: Response = requests.get("https://4.ident.me")
-        return response.text
-    except Exception as e:
-        logging.error(
-            "Failed to get the public IP address, check your internet connection.", e
-        )
-        sys.exit()
 
 
 def get_zone_identifier(zone_name: str, auth_email: str, auth_key: str) -> str:
@@ -108,7 +92,6 @@ def setup_logging():
     logging.info(f"{application_name} {version}")
 
 
-
 def main() -> None:
     """
     Main function
@@ -132,7 +115,9 @@ def main() -> None:
     else:
         logging.info(f"Updating records to {current_ip}")
 
-    zone_identifier: str = get_zone_identifier(settings.zone_name, settings.auth_email, settings.auth_key)
+    zone_identifier: str = get_zone_identifier(
+        settings.zone_name, settings.auth_email, settings.auth_key
+    )
 
     for record in settings.records:
         record_identifier: str = get_record_identifier(
@@ -144,7 +129,12 @@ def main() -> None:
             )
             continue
         update_record(
-            zone_identifier, record_identifier, record, current_ip, settings.auth_email, settings.auth_key
+            zone_identifier,
+            record_identifier,
+            record,
+            current_ip,
+            settings.auth_email,
+            settings.auth_key,
         )
 
 
