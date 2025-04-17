@@ -1,5 +1,4 @@
 import logging
-import sys
 
 import requests
 from requests import Response
@@ -12,8 +11,9 @@ def get_external_ip() -> str:
     try:
         response: Response = requests.get("https://4.ident.me")
         return response.text
-    except Exception as e:
-        logging.error(
-            "Failed to get the public IP address, check your internet connection.", e
+    except Exception:
+        logging.warn(
+            "Failed to get the public IP address, check your internet connection."
         )
-        sys.exit()
+        return ""
+        

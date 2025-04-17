@@ -27,8 +27,8 @@ class CloudflareService:
             return response.json()["result"][0]["id"]
 
         except Exception:
-            logging.error(f"Failed to get the zone id for {zone_name}")
-            sys.exit()
+            logging.warn(f"Failed to get the zone id for {zone_name}")
+            return ""
 
     def get_record_identifier(self, zone_identifier: str, record: str) -> str:
         """
@@ -46,6 +46,7 @@ class CloudflareService:
             )
             return response.json()["result"][0]["id"]
         except Exception:
+            logging.warn(f"Failed to get the record id for {record}")
             return ""
 
     def update_record(
