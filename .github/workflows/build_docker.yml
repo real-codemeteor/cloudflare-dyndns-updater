@@ -1,0 +1,3 @@
+on:
+  label:
+    types: [created, deleted]
