@@ -56,7 +56,7 @@ class Main:
         self.scheduler.run()
 
     def update_ip(self):
-        self.scheduler.enter(15, 1, self.update_ip)
+        self.scheduler.enter(60, 1, self.update_ip)
         self.current_ip = get_external_ip()
 
         if self.current_ip == "":
