@@ -1,8 +1,10 @@
 on:
-  label:
-    types: [created, deleted]
+  push:
+    tags:
+     - 'v[0-9]+.[0-9]+.[0-9]+'
 jobs:
-  Build-Docker-Image:
+  build:
+    # if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "Hello from my first GitHub action"
