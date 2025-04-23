@@ -18,5 +18,5 @@ jobs:
       - run: echo ${{DOCKER_FULL_TAG}}
       - uses: actions/checkout@v4
       - name: Build the Docker image
-      - run: docker build . --file Dockerfile --tag realcodemeteor/codemeteor/cloudflare-dyndns-updater:$(date +%s)
+        run: docker build . --file Dockerfile --tag realcodemeteor/codemeteor/cloudflare-dyndns-updater:$(date +%s)
           
