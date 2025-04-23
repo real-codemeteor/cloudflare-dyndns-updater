@@ -8,14 +8,13 @@ env:
   DOCKER_REPOSITORY: codemeteor
   DOCKER_IMAGE_NAME: cloudflare-dyndns-updater
   DOCKER_TAG: $(date +%s)
-  DOCKER_FULL_TAG: ${{DOCKER_USER}}/${{DOCKER_REPOSITORY}}/{{DOCKER_IMAGE_NAME}}:${{DOCKER_TAG}}
 jobs:
   build:
     
     # if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{DOCKER_FULL_TAG}}
+      - run: echo ${{DOCKER_USER}}/${{DOCKER_REPOSITORY}}/{{DOCKER_IMAGE_NAME}}:${{DOCKER_TAG}}
       - uses: actions/checkout@v4
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag realcodemeteor/codemeteor/cloudflare-dyndns-updater:$(date +%s)
