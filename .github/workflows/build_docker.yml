@@ -14,8 +14,9 @@ jobs:
     # if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${GITHUB_REF#refs/*/}
       - run: echo $DOCKER_USER/$DOCKER_REPOSITORY/$DOCKER_IMAGE_NAME:$($DOCKER_TAG)
       - uses: actions/checkout@v4
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag $DOCKER_USER/$DOCKER_REPOSITORY/$DOCKER_IMAGE_NAME:$($DOCKER_TAG)
+        run: docker build . --file Dockerfile --tag ${{DOCKER_USER}}/${{DOCKER_REPOSITORY}}/${{DOCKER_IMAGE_NAME}}:${{DOCKER_TAG}}
           
