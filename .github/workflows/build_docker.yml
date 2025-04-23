@@ -7,7 +7,7 @@ env:
   DOCKER_USER: realcodemeteor
   DOCKER_REPOSITORY: codemeteor
   DOCKER_IMAGE_NAME: cloudflare-dyndns-updater
-  DOCKER_TAG: $(date +%s)
+  DOCKER_TAG: "date +%s"
 jobs:
   build:
     
