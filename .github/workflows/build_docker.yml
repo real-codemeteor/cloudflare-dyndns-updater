@@ -19,7 +19,8 @@ jobs:
           else
             echo "DOCKER_TAG=dev-$(date +%s)" >> $GITHUB_ENV
           fi
-      - uses: actions/checkout@v4
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag $DOCKER_USER/$DOCKER_REPOSITORY/$DOCKER_IMAGE_NAME:$DOCKER_TAG
           
