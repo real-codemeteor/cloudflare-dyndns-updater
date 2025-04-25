@@ -5,8 +5,7 @@ on: push
 
 env:
   DOCKER_USER: realcodemeteor
-  DOCKER_REPOSITORY: codemeteor
-  DOCKER_IMAGE_NAME: cloudflare-dyndns-updater
+  DOCKER_REPOSITORY: cloudflare-dyndns-updater
   DOCKER_TAG: ${{  github.ref_name }}
 jobs:
   build:
