@@ -5,9 +5,11 @@ from os import getenv
 import yaml
 import logging
 import sys
+import tomllib
+import pathlib
 
 
-SETTINGS_FILE = Path(getenv("SETTINGS_FILE", "./config/settings.yaml"))
+SETTINGS_FILE = Path(getenv("SETTINGS_FILE", pathlib.Path.home() / ".config/cloudflare-dyndns-updater/config.toml"))
 
 
 @dataclass
@@ -18,8 +20,7 @@ class Settings:
 
     auth_email: str
     auth_key: str
-    zone_name: str
-    records: list
+    zones: list
 
     def __init__(self) -> None:
         """
@@ -29,15 +30,16 @@ class Settings:
 
     def read_settings(self) -> Dict:
         """
-        Read the settings from the settings.yaml file
+        Read the settings from the config.toml file
         """
         try:
-            with open(SETTINGS_FILE) as settings_file:
-                settings: Dict = yaml.load(settings_file, Loader=yaml.FullLoader)
+            with open(SETTINGS_FILE, "rb") as settings_file:
+                settings: Dict = tomllib.load(settings_file)
+            print(settings)
             self.auth_email = settings["auth_email"]
             self.auth_key = settings["auth_key"]
-            self.zone_name = settings["zone_name"]
-            self.records = settings["records"]
+            self.zones = settings["zone_name"]
+
         except Exception:
             logging.error("Failed to load the settings")
 
