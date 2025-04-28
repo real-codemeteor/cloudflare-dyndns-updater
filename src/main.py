@@ -71,29 +71,34 @@ class Main:
         self.previous_ip = self.current_ip
         logging.info(f"Updating records to {self.current_ip}")
 
-        zone_identifier: str = self.cloudflare_service.get_zone_identifier(
-            self.settings.zone_name
-        )
+        for zone in self.settings.zones:
+            logging.info(f"Updating zone {zone}")
 
-        if zone_identifier == "":
-            logging.error(f"Failed to get the zone id for {self.settings.zone_name}")
-            return
+            records = self.settings.zones[zone]["records"]
 
-        for record in self.settings.records:
-            record_identifier: str = self.cloudflare_service.get_record_identifier(
-                zone_identifier, record
+            zone_identifier: str = self.cloudflare_service.get_zone_identifier(
+                zone
             )
-            if record_identifier == "":
-                logging.warning(
-                    f"Failed to get the record id for {record}. Skipping record."
+
+            if zone_identifier == "":
+                logging.error(f"Failed to get the zone id for {zone}")
+                return
+
+            for record in records:
+                record_identifier: str = self.cloudflare_service.get_record_identifier(
+                    zone_identifier, record
                 )
-                continue
-            self.cloudflare_service.update_record(
-                zone_identifier,
-                record_identifier,
-                record,
-                self.current_ip,
-            )
+                if record_identifier == "":
+                    logging.warning(
+                        f"Failed to get the record id for {record}. Skipping record."
+                    )
+                    continue
+                self.cloudflare_service.update_record(
+                    zone_identifier,
+                    record_identifier,
+                    record,
+                    self.current_ip,
+                )
 
         logging.info("Update completed!")
 
