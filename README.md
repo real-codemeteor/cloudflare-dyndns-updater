@@ -1,8 +1,52 @@
 # Cloudflare DYNDNS Updater
-This is a simple script to update one or more DNS records on Cloudflare with the public IP of the internet connection you are running this script on.
+This is a simple application to update Cloudflare DNS records with the public IP address of the internet connection you are running this application form.
+
+Every minute the application will check if your public IP address has changed and if so it will update the Cloudflare DNS records.
+
+Everything can be controlled from the configuration file.
+
+## Installation
+
+To install this application, you can choose to run it as a container, or you can run the script directly.
+
+Whichever method you choose, you will need to create a configuration file.
+
+## Configuration
+
+The configuration file is in the .toml format.
+By default the script will look for the config.toml file in the ~/.config/cloudflare-dyndns-updater/ folder.
+The location and name can be changed by setting the SETTINGS_FILE environment variable. 
+
+```toml
+auth_email = "your@mail.com"
+auth_key = "<authkey found in you cloudflare account>"
+
+[zone_name."your-zone.com"]
+records = ["record-one.your-zone.com", "record-two.your-zone.com"]
+
+[zone_name."your-second-zone.com"]
+records = ["record-one.your-second-zone.com", "record-two.your-second-zone.com"]
+```
+
+Above you see an example of the contents of the configuration file.
+
+The `auth_email` and `auth_key` are the credentials for your Cloudflare account.
+
+The `zone_name` is the name of the zone you want to update.
+The `records` is a list of the records you want to update.
+
+You can add multiple zones and records by adding more sections to the file.
+
+### Script
+
+First make sure you have [UV](https://github.com/astral-sh/uv) and [Git](https://git-scm.com) installed on your machine.
+
+### Container
+
+
 
 ## Requirements
-This script runs inside a Docker container so you will need to have Doekcer installed on the machine where you want to run this script on.  
+This script runs inside a Docker container so you will need to have Docker installed on the machine where you want to run this script on.  
 It's also recomended that you use Docker Compose for running the script.
 
 ## Installation
