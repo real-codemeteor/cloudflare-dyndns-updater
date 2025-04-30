@@ -7,8 +7,8 @@ from os import getenv
 from time import sleep, time
 from typing import Optional
 
-from services import CloudflareService, get_external_ip
-from settings import Settings
+from cloudflare_dyndns_updater.services import CloudflareService, get_external_ip
+from cloudflare_dyndns_updater.settings import Settings
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
@@ -76,9 +76,7 @@ class Main:
 
             records = self.settings.zones[zone]["records"]
 
-            zone_identifier: str = self.cloudflare_service.get_zone_identifier(
-                zone
-            )
+            zone_identifier: str = self.cloudflare_service.get_zone_identifier(zone)
 
             if zone_identifier == "":
                 logging.error(f"Failed to get the zone id for {zone}")
@@ -102,11 +100,13 @@ class Main:
 
         logging.info("Update completed!")
 
-
-if __name__ == "__main__":
+def main():
     try:
         main = Main()
         main.run()
     except KeyboardInterrupt:
         logging.info("Received KeyboardInterrupt. Exiting...")
         sys.exit()
+
+if __name__ == "__main__":
+    main()

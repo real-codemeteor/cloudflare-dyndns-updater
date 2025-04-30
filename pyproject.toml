@@ -1,6 +1,6 @@
 [project]
 name = "cloudflare-dyndns-updater"
-version = "0.1.0"
+version = "1.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -8,3 +8,14 @@ dependencies = [
     "pyyaml>=6.0.2",
     "requests>=2.32.3",
 ]
+
+[project.scripts]
+cfdns = "cloudflare_dyndns_updater.main:main"
+
+[build-system]
+requires = ["setuptools>=78.1.0", "wheel>=0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv.build-backend]
+module-root = "cloudflare_dyndns_updater"
+module-name = "cloudflare_dyndns_updater"
