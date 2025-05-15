@@ -52,18 +52,20 @@ Navigate into the directory in which you cloned the repository.
 cd cloudflare-dyndns-updater
 ```
 
-Sync the virtual environment.
+Execute the following command, to create the vritual environment and install the dependencies.
 ```bash
 uv sync
 ```
 
-Now run the following command to start the application.
+Execute the following command, to run the application.
 ```bash
-uv run cfdns
+uv run src/cloudflare_dyndns_updater/main.py
 ```
+
 The application will keep on running until you stop it by pressing `CTRL+C`.
 
 ### Container
 
-Cloudflare DYBDNS Updater is also available as a container image on Docker Hub.
+Cloudflare DYNDNS Updater is also available as a container image on Docker Hub.
+
 
