@@ -7,8 +7,8 @@ from os import getenv
 from time import sleep, time
 from typing import Optional
 
-from cloudflare_dyndns_updater.services import CloudflareService, get_external_ip
-from cloudflare_dyndns_updater.settings import Settings
+from services import CloudflareService, get_external_ip
+from settings import Settings
 
 application_name = "CloudFlare DYNDNS Updater"
 version = "1.1.0"
