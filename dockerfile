@@ -8,4 +8,5 @@ USER default
 RUN uv sync && uv build
 COPY /src/. /opt/app-root/
 WORKDIR /opt/app-root/cloudflare_dyndns_updater
+ENV SETTINGS_FILE=/config.toml 
 CMD ["uv", "run", "python", "main.py"]
