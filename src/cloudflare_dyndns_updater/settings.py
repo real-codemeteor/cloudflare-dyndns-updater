@@ -35,7 +35,6 @@ class Settings:
         try:
             with open(SETTINGS_FILE, "rb") as settings_file:
                 settings: Dict = tomllib.load(settings_file)
-            print(settings)
             self.auth_email = settings["auth_email"]
             self.auth_key = settings["auth_key"]
             self.zones = settings["zone_name"]
