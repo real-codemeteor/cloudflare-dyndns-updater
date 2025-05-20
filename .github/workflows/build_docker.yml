@@ -1,0 +1,38 @@
+on: push
+  #push:
+    #tags:
+     #- 'v[0-9]+.[0-9]+.[0-9]+'
+
+env:
+  DOCKER_USER: realcodemeteor
+  DOCKER_REPOSITORY: cloudflare-dyndns-updater
+  DOCKER_TAG: ${{  github.ref_name }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Generate Tag
+        run: |
+          if [[ $DOCKER_TAG =~ ^v[0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo "yes"
+          else
+            echo "DOCKER_TAG=dev-$(date +%s)" >> $GITHUB_ENV
+          fi
+      
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Log into registry docker.io
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_USER }}/${{ env.DOCKER_REPOSITORY }}:${{ env.DOCKER_TAG}}
