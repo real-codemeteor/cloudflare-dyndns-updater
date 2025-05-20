@@ -9,9 +9,9 @@ Everything can be controlled from the configuration file.
 
 To install this application, you can choose to run it as a container, or you can run the script directly.
 
-Whichever method you choose, you will need to create a configuration file.
+Whichever method you choose, you will need to create a configuration file first.
 
-## Configuration
+### Configuration
 
 The configuration file is in the `.toml` format.
 By default the script will look for the `config.toml` file in the `~/.config/cloudflare-dyndns-updater/` folder.
@@ -68,4 +68,16 @@ The application will keep on running until you stop it by pressing `CTRL+C`.
 
 Cloudflare DYNDNS Updater is also available as a container image on Docker Hub.
 
+For this example we use Docker, but you can use any container runtime you like.
 
+Starting the container is as easy as running the following command from the folder where you have your ```config.toml``` file stored.
+
+```bash
+docker run -v ./config.toml:/config.toml realcodemeteor/cloudflare-dyndns-updater:1.1.0
+```
+
+The container will keep on running until you stop it by pressing `CTRL+C`.
+
+## Support
+
+If you like what I am doing and want to support me, you can donate via [PayPal](https://paypal.me/codemeteor).
