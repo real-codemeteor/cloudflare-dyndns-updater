@@ -1,5 +1,4 @@
 import logging
-import sys
 from dataclasses import dataclass
 
 import requests
@@ -7,8 +6,7 @@ import requests
 
 @dataclass
 class CloudflareService:
-    auth_email: str
-    auth_key: str
+    api_token: str
 
     def get_zone_identifier(self, zone_name: str) -> str:
         """
@@ -19,15 +17,16 @@ class CloudflareService:
             response = requests.get(
                 f"https://api.cloudflare.com/client/v4/zones?name={zone_name}",
                 headers={
-                    "X-Auth-Email": self.auth_email,
-                    "X-Auth-Key": self.auth_key,
+                    "Authorization": f"Bearer {self.api_token}",
                     "Content-Type": "application/json",
                 },
             )
             return response.json()["result"][0]["id"]
 
-        except Exception:
-            logging.warn(f"Failed to get the zone id for {zone_name}")
+        except Exception as ex:
+            logging.error(ex)
+
+            logging.warning(f"Failed to get the zone id for {zone_name}")
             return ""
 
     def get_record_identifier(self, zone_identifier: str, record: str) -> str:
@@ -39,14 +38,13 @@ class CloudflareService:
             response = requests.get(
                 f"https://api.cloudflare.com/client/v4/zones/{zone_identifier}/dns_records?name={record}",
                 headers={
-                    "X-Auth-Email": self.auth_email,
-                    "X-Auth-Key": self.auth_key,
+                    "Authorization": f"Bearer {self.api_token}",
                     "Content-Type": "application/json",
                 },
             )
             return response.json()["result"][0]["id"]
         except Exception:
-            logging.warn(f"Failed to get the record id for {record}")
+            logging.warning(f"Failed to get the record id for {record}")
             return ""
 
     def update_record(
@@ -64,8 +62,7 @@ class CloudflareService:
             result = requests.put(
                 f"https://api.cloudflare.com/client/v4/zones/{zone_identifier}/dns_records/{record_identifier}",
                 headers={
-                    "X-Auth-Email": self.auth_email,
-                    "X-Auth-Key": self.auth_key,
+                    "Authorization": f"Bearer {self.api_token}",
                     "Content-Type": "application/json",
                 },
                 json={
