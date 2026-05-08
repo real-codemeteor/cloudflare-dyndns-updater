@@ -46,9 +46,7 @@ class Main:
             logging.error("There was a problem loading the settings.")
             sys.exit(1)
 
-        self.cloudflare_service = CloudflareService(
-            self.settings.auth_email, self.settings.auth_key
-        )
+        self.cloudflare_service = CloudflareService(self.settings.api_token)
 
         self.scheduler = sched.scheduler(time, sleep)
 
@@ -100,6 +98,7 @@ class Main:
 
         logging.info("Update completed!")
 
+
 def main():
     try:
         main = Main()
@@ -107,6 +106,7 @@ def main():
     except KeyboardInterrupt:
         logging.info("Received KeyboardInterrupt. Exiting...")
         sys.exit()
+
 
 if __name__ == "__main__":
     main()
