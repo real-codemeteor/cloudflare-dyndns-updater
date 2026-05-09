@@ -74,7 +74,7 @@ For this example we use Docker, but you can use any container runtime you like.
 Starting the container is as easy as running the following command from the folder where you have your ```config.toml``` file stored.
 
 ```bash
-docker run -v ./config.toml:/config.toml realcodemeteor/cloudflare-dyndns-updater:1.1.0
+docker run -v ./config.toml:/config.toml realcodemeteor/cloudflare-dyndns-updater:1.1.1
 ```
 
 The container will keep on running until you stop it by pressing `CTRL+C`.
