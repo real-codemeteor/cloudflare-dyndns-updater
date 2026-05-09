@@ -18,8 +18,8 @@ By default the script will look for the `config.toml` file in the `~/.config/clo
 The location and name can be changed by setting the `SETTINGS_FILE` environment variable. 
 
 ```toml
-auth_email = "your@mail.com"
-auth_key = "<authkey found in you cloudflare account>"
+account_id = "your_account_id"
+api_token = "<your api_token>"
 
 [zone_name."your-zone.com"]
 records = ["record-one.your-zone.com", "record-two.your-zone.com"]
@@ -30,7 +30,8 @@ records = ["record-one.your-second-zone.com", "record-two.your-second-zone.com"]
 
 Above you see an example of the contents of the configuration file.
 
-The `auth_email` and `auth_key` are the credentials for your Cloudflare account.
+The `account_id` and `api_token` are used to authenticate to use the Cloudflare api with your account.
+You will need to create an api token in the CloudFlare settings ```Manage account -> Account API tokens```
 
 The `zone_name` is the name of the zone you want to update.  
 `records` is a list of records you want to update.
