@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.13-trixie
+FROM ghcr.io/astral-sh/uv:python3.13-alpine
 
 WORKDIR /opt/app-root/
 RUN adduser default -D
